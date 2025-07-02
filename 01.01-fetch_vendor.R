@@ -195,13 +195,35 @@ local({
   )
   processx::run("npm", "prune", wd=.path_git_tmp)
   processx::run("npm", "install", wd=.path_git_tmp)
+  processx::run("npm", c("run", "build"), wd=.path_git_tmp)
   fs::dir_create(fs::path(.path_lib_tmp, "js"))
   fs::file_copy(
     fs::path(.path_git_tmp, "LICENSE"), 
     fs::path(.path_lib_tmp, "LICENSE")
   )
   fs::file_copy(
-    fs::path(.path_git_tmp, "src", "Headroom.js"),
-    fs::path(.path_lib_tmp, "js", "Headroom.js")
+    fs::path(.path_git_tmp, "dist", "headroom.js"),
+    fs::path(.path_lib_tmp, "js", "headroom.js")
+  )
+})
+
+local({
+  .path_git_tmp <- fs::file_temp(pattern="git")
+  .path_lib_tmp <- fs::path(path_vendor, "masonry")
+  gert::git_clone("git@github.com:desandro/masonry.git", .path_git_tmp)
+  # 0.11.0 release
+  gert::git_reset_hard(
+    ref="3b0883cf4a4a046896719b9cf282ea74be7ffecd", repo=I(.path_git_tmp)
+  )
+  processx::run("npm", "prune", wd=.path_git_tmp)
+  processx::run("npm", "install", wd=.path_git_tmp)
+  fs::dir_create(fs::path(.path_lib_tmp, "js"))
+  # fs::file_copy(
+  #   fs::path(.path_git_tmp, "LICENSE"),
+  #   fs::path(.path_lib_tmp, "LICENSE")
+  # )
+  fs::file_copy(
+    fs::path(.path_git_tmp, "dist", "masonry.pkgd.js"),
+    fs::path(.path_lib_tmp, "js", "masonry.pkgd.js")
   )
 })
