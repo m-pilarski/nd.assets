@@ -251,3 +251,83 @@ local({
     fs::path(.path_lib_tmp, "css", "glider.css")
   )
 })
+
+local({
+  .path_git_tmp <- fs::file_temp(pattern="git")
+  .path_lib_tmp <- fs::path(path_vendor, "glider")
+  gert::git_clone("git@github.com:NickPiscitelli/Glider.js.git", .path_git_tmp)
+  # 0.11.0 release
+  gert::git_reset_hard(
+    ref="1358051cce3b9ae63c55aecb97d97c4fd56796f1", repo=I(.path_git_tmp)
+  )
+  fs::dir_create(fs::path(.path_lib_tmp, "js"))
+  fs::dir_create(fs::path(.path_lib_tmp, "css"))
+  fs::file_copy(
+    fs::path(.path_git_tmp, "LICENSE.txt"),
+    fs::path(.path_lib_tmp, "LICENSE")
+  )
+  fs::file_copy(
+    fs::path(.path_git_tmp, "glider.js"),
+    fs::path(.path_lib_tmp, "js", "glider.js")
+  )
+  fs::file_copy(
+    fs::path(.path_git_tmp, "glider.css"),
+    fs::path(.path_lib_tmp, "css", "glider.css")
+  )
+})
+
+
+local({
+  .path_git_tmp <- fs::file_temp(pattern="git")
+  .path_lib_tmp <- fs::path(path_vendor, "glider")
+  gert::git_clone("git@github.com:NickPiscitelli/Glider.js.git", .path_git_tmp)
+  # 0.11.0 release
+  gert::git_reset_hard(
+    ref="1358051cce3b9ae63c55aecb97d97c4fd56796f1", repo=I(.path_git_tmp)
+  )
+  fs::dir_create(fs::path(.path_lib_tmp, "js"))
+  fs::dir_create(fs::path(.path_lib_tmp, "css"))
+  fs::file_copy(
+    fs::path(.path_git_tmp, "LICENSE.txt"),
+    fs::path(.path_lib_tmp, "LICENSE")
+  )
+  fs::file_copy(
+    fs::path(.path_git_tmp, "glider.js"),
+    fs::path(.path_lib_tmp, "js", "glider.js")
+  )
+  fs::file_copy(
+    fs::path(.path_git_tmp, "glider.css"),
+    fs::path(.path_lib_tmp, "css", "glider.css")
+  )
+})
+
+local({
+  .path_git_tmp <- fs::file_temp(pattern="git")
+  .path_lib_tmp <- fs::path(path_vendor, "glide")
+  gert::git_clone("git@github.com:glidejs/glide.git", .path_git_tmp)
+  # 0.11.0 release
+  gert::git_reset_hard(
+    ref="03e7f39d3bb4a5fe9c9dd609872113e3a3329afc", repo=I(.path_git_tmp)
+  )
+  processx::run("npm", "prune", wd=.path_git_tmp)
+  processx::run("npm", "install", wd=.path_git_tmp)
+  processx::run("npm", c("run", "build"), wd=.path_git_tmp)
+  fs::dir_create(fs::path(.path_lib_tmp, "js"))
+  fs::dir_create(fs::path(.path_lib_tmp, "css"))
+  fs::file_copy(
+    fs::path(.path_git_tmp, "LICENSE"),
+    fs::path(.path_lib_tmp, "LICENSE")
+  )
+  fs::file_copy(
+    fs::path(.path_git_tmp, "dist", "glide.js"),
+    fs::path(.path_lib_tmp, "js", "glide.js")
+  )
+  fs::file_copy(
+    fs::path(.path_git_tmp, "dist", "css", "glide.core.css"),
+    fs::path(.path_lib_tmp, "css", "glide.core.css")
+  )
+  fs::file_copy(
+    fs::path(.path_git_tmp, "dist", "css", "glide.theme.css"),
+    fs::path(.path_lib_tmp, "css", "glide.theme.css")
+  )
+})
