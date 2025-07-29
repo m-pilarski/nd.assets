@@ -227,3 +227,27 @@ local({
     fs::path(.path_lib_tmp, "js", "masonry.pkgd.js")
   )
 })
+
+local({
+  .path_git_tmp <- fs::file_temp(pattern="git")
+  .path_lib_tmp <- fs::path(path_vendor, "glider")
+  gert::git_clone("git@github.com:NickPiscitelli/Glider.js.git", .path_git_tmp)
+  # 0.11.0 release
+  gert::git_reset_hard(
+    ref="1358051cce3b9ae63c55aecb97d97c4fd56796f1", repo=I(.path_git_tmp)
+  )
+  fs::dir_create(fs::path(.path_lib_tmp, "js"))
+  fs::dir_create(fs::path(.path_lib_tmp, "css"))
+  fs::file_copy(
+    fs::path(.path_git_tmp, "LICENSE.txt"),
+    fs::path(.path_lib_tmp, "LICENSE")
+  )
+  fs::file_copy(
+    fs::path(.path_git_tmp, "glider.js"),
+    fs::path(.path_lib_tmp, "js", "glider.js")
+  )
+  fs::file_copy(
+    fs::path(.path_git_tmp, "glider.css"),
+    fs::path(.path_lib_tmp, "css", "glider.css")
+  )
+})
